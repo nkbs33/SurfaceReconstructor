@@ -1,0 +1,96 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="源文件">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="头文件">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="资源文件">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="源文件\catpaw">
+      <UniqueIdentifier>{048a0127-af7f-46fe-87d4-117dd5edfd36}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="catpaw\Camera.cpp">
+      <Filter>源文件\catpaw</Filter>
+    </ClCompile>
+    <ClCompile Include="catpaw\cpXMLHelper.cpp">
+      <Filter>源文件\catpaw</Filter>
+    </ClCompile>
+    <ClCompile Include="catpaw\geometry.cpp">
+      <Filter>源文件\catpaw</Filter>
+    </ClCompile>
+    <ClCompile Include="catpaw\glUtils.cpp">
+      <Filter>源文件\catpaw</Filter>
+    </ClCompile>
+    <ClCompile Include="catpaw\objbuilder.cpp">
+      <Filter>源文件\catpaw</Filter>
+    </ClCompile>
+    <ClCompile Include="glad.c">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="main.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="SurfaceReconstructor.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="ZIndexGrid.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="catpaw\Camera.h">
+      <Filter>源文件\catpaw</Filter>
+    </ClInclude>
+    <ClInclude Include="catpaw\cpTimer.h">
+      <Filter>源文件\catpaw</Filter>
+    </ClInclude>
+    <ClInclude Include="catpaw\cpToolBox.h">
+      <Filter>源文件\catpaw</Filter>
+    </ClInclude>
+    <ClInclude Include="catpaw\cpXMLhelper.h">
+      <Filter>源文件\catpaw</Filter>
+    </ClInclude>
+    <ClInclude Include="catpaw\geometry.h">
+      <Filter>源文件\catpaw</Filter>
+    </ClInclude>
+    <ClInclude Include="catpaw\geometry_helper.h">
+      <Filter>源文件\catpaw</Filter>
+    </ClInclude>
+    <ClInclude Include="catpaw\glUtils.h">
+      <Filter>源文件\catpaw</Filter>
+    </ClInclude>
+    <ClInclude Include="catpaw\objbuilder.h">
+      <Filter>源文件\catpaw</Filter>
+    </ClInclude>
+    <ClInclude Include="catpaw\vec_define.h">
+      <Filter>源文件\catpaw</Filter>
+    </ClInclude>
+    <ClInclude Include="ParticleData.hpp">
+      <Filter>源文件</Filter>
+    </ClInclude>
+    <ClInclude Include="SPHHelper.hpp">
+      <Filter>源文件</Filter>
+    </ClInclude>
+    <ClInclude Include="SurfaceReconstructor.hpp">
+      <Filter>源文件</Filter>
+    </ClInclude>
+    <ClInclude Include="ZIndexGrid.hpp">
+      <Filter>源文件</Filter>
+    </ClInclude>
+    <ClInclude Include="IndexMap.hpp">
+      <Filter>源文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Mesh.hpp">
+      <Filter>源文件</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>
