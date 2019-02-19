@@ -45,6 +45,9 @@
     <ClCompile Include="ZIndexGrid.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="MarchingCube.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="catpaw\Camera.h">
@@ -90,6 +93,9 @@
       <Filter>源文件</Filter>
     </ClInclude>
     <ClInclude Include="Mesh.hpp">
+      <Filter>源文件</Filter>
+    </ClInclude>
+    <ClInclude Include="MarchingCube.h">
       <Filter>源文件</Filter>
     </ClInclude>
   </ItemGroup>

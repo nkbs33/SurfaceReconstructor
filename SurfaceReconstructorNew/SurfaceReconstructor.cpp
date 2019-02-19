@@ -112,6 +112,20 @@ void SurfaceReconstructor::ExtractSurfaceVertices(){
     }
 }
 
+#include "Eigen/Eigen"
+using namespace Eigen;
+typedef Map<Matrix<float,3,3,RowMajor> > Map3f;
+
+inline float maxEV(cmat3& mat) {
+	Map3f map3f =Map3f(mat.data);
+	//printf("mat row1 %f %f %f\n", map3f(0, 0), map3f(0, 1), map3f(0, 2));
+	Matrix<std::complex<float>, 3, 1> eivals = map3f.eigenvalues();
+	float a = eivals(0, 0).real();
+	float b = eivals(1, 0).real();
+	float c = eivals(2, 0).real();
+	return fmax(fmax(a,b),c);
+}
+
 void SurfaceReconstructor::ComputeScalarValues(){
     //gather approach
     for(int i=0; i<surfaceGrid.surfaceVertices.size(); i++){
@@ -119,13 +133,17 @@ void SurfaceReconstructor::ComputeScalarValues(){
 		cfloat3 xi = surfaceGrid.GetVertexPosition(gridIndex);	
 		
 		cint3 coord = zGrid.ComputeCoordinate(xi);
-		int pHash = zGrid.particleHandlers[i].particleHash;
+		int pHash = zGrid.ComputeCellHash(coord);
 		if (pHash == INVALID_CELL)
 			continue;
 
 		int numNeighbors = 0;
-		cfloat3 normal(0, 0, 0);
+		cfloat3 normal;
 		float pVol = particleSpacing * particleSpacing * particleSpacing;
+		cfloat3 xAverage;
+		cmat3 xAverageGradient;
+		float sumW = 0;
+		cfloat3 sumNablaW;
 
 		// for each neighbor cell
 		for (int xx=-1; xx<=1; xx++)
@@ -141,18 +159,48 @@ void SurfaceReconstructor::ComputeScalarValues(){
 
 					// for each neighboring particle
 					for (int j=startIndice; j<endIndice; j++) {
-						if (j == i)
-							continue;
+						
 						cfloat3& xj = particleData.GetParticle(j).pos;
 						cfloat3 xij = xi - xj;
 						float d = xij.Norm();
 						if (d >= infectRadius)
 							continue;
+						float w_ij = sphHelper.Cubic(d);
 						cfloat3 nablaW = sphHelper.CubicGradient(xij);
-						normal += nablaW;
+						xAverage += xj * w_ij;
+						sumW += w_ij;
+						sumNablaW += nablaW;
+
+						xAverageGradient.Add(TensorProduct(xj, nablaW));
 						numNeighbors ++;
 					}
 				}
+		
+		float scalarValue;
+		if (abs(sumW)>EPSILON) {
+			cmat3 tmp;
+			tmp = TensorProduct(xAverage, sumNablaW);
+			tmp.Multiply(1.0f/sumW/sumW);
+
+			xAverage /= sumW;
+			xAverageGradient.Multiply(1.0f/sumW);
+			xAverageGradient.Minus(tmp);
+
+			float evMax = maxEV(xAverageGradient);
+			float f = 0;
+			float t_high = 3.5, t_low = 0.4;
+			if(evMax < t_low )
+				f = 1;
+			else {
+				float gamma = (t_high - evMax)/(t_high - t_low);
+				f = gamma*gamma*gamma - 3*gamma*gamma + 3*gamma;
+				if(f<0) f = 0;
+			}
+			scalarValue = (xi - xAverage).Norm() -  f * particleSpacing;
+		}
+		else
+			scalarValue = OUTSIDE;
+		surfaceGrid.surfaceVertices[i].value = scalarValue;
     }
 }
 

@@ -60,7 +60,7 @@ inline float dot(cfloat2& a, cfloat2& b) {
 
 struct cfloat3 {
 	float x, y, z;
-	HDFUNC cfloat3() {}
+	HDFUNC cfloat3() {x=y=z=0;}
 	HDFUNC cfloat3(float _x, float _y, float _z) :x(_x), y(_y), z(_z) {}
 	HDFUNC void Set(float _x, float _y, float _z) {
 		x = _x;
@@ -256,6 +256,10 @@ struct cmat3
 	HDFUNC void Multiply(float b) {
 		for(int k=0;k<9;k++)
 			data[k] = data[k]*b;
+	}
+	HDFUNC void Minus(cmat3& b) {
+		for(int k=0; k<9; k++)
+			data[k] -= b.data[k];
 	}
 
 	HDFUNC cfloat3 Col(int n) {

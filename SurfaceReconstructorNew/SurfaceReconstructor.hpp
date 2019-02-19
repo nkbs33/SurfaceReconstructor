@@ -4,6 +4,8 @@
 #include "ZIndexGrid.hpp"
 #include "SPHHelper.hpp"
 
+#define OUTSIDE 999
+
 class GridVertex{
     public:
     int surfaceIndex;
@@ -13,6 +15,7 @@ class SurfaceVertex{
     public:
     int gridIndex;
     cint3 vertexIds;
+	float value;
 };
 
 class SurfaceGrid{
