@@ -98,5 +98,14 @@
     <ClInclude Include="MarchingCube.h">
       <Filter>源文件</Filter>
     </ClInclude>
+    <ClInclude Include="MarchingCubeConstants.h">
+      <Filter>源文件</Filter>
+    </ClInclude>
+    <ClInclude Include="SurfaceGrids.h">
+      <Filter>源文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Grids.h">
+      <Filter>源文件</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

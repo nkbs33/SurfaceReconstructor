@@ -173,8 +173,11 @@
     <ClInclude Include="catpaw\glUtils.h" />
     <ClInclude Include="catpaw\objbuilder.h" />
     <ClInclude Include="catpaw\vec_define.h" />
+    <ClInclude Include="Grids.h" />
+    <ClInclude Include="SurfaceGrids.h" />
     <ClInclude Include="IndexMap.hpp" />
     <ClInclude Include="MarchingCube.h" />
+    <ClInclude Include="MarchingCubeConstants.h" />
     <ClInclude Include="Mesh.hpp" />
     <ClInclude Include="ParticleData.hpp" />
     <ClInclude Include="SPHHelper.hpp" />

@@ -1,11 +1,10 @@
 #pragma once
 
-#include "catpaw/vec_define.h"
 #include <utility>
+#include "catpaw/vec_define.h"
+#include "Grids.h"
 #include "ParticleData.hpp"
 
-#define INVALID_CELL 999999999
-#define CELL_EMPTY -1
 
 struct ParticleHandler{
     int particleId;

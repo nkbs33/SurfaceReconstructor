@@ -102,10 +102,11 @@ void SurfaceReconstructor::ExtractSurfaceVertices(){
         for(int yy=coordMin.y; yy<=coordMax.y; yy++)
         for(int zz=coordMin.z; zz<=coordMax.z; zz++){
             int index = surfaceGrid.GetVertexIndex(cint3(xx,yy,zz));
-            if( surfaceGrid.vertices[index].surfaceIndex == -1 ){
-                surfaceGrid.vertices[index].surfaceIndex = numSurfaceVertices ++;
+            if( surfaceGrid.surfaceIndices[index] == -1 ){
+                surfaceGrid.surfaceIndices[index] = numSurfaceVertices ++;
                 SurfaceVertex sVertex;
                 sVertex.gridIndex = index;
+				sVertex.coord = cint3(xx,yy,zz);
                 surfaceGrid.surfaceVertices.push_back(sVertex);
             }
         }
