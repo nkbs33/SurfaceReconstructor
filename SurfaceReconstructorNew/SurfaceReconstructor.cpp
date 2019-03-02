@@ -206,5 +206,11 @@ void SurfaceReconstructor::ComputeScalarValues(){
 }
 
 void SurfaceReconstructor::Triangulate(){
+	MarchingCube marchingCube;
+	marchingCube.surfaceGrid = & surfaceGrid;
+	marchingCube.SetCubeWidth(surfaceGrid.cellWidth);
+	marchingCube.isoLevel = 0.5;
 
+	marchingCube.Marching();
+	marchingCube.mesh.Output("test.obj");
 }

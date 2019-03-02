@@ -5,6 +5,8 @@
 #include "SPHHelper.hpp"
 #include "SurfaceGrids.h"
 
+#include "MarchingCube.h"
+
 #define OUTSIDE 999
 
 class SurfaceReconstructor{

@@ -3,10 +3,14 @@
 #include "MarchingCube.h"
 #include "MarchingCubeConstants.h"
 
-
-IdPoint CalculateIntersection(cint3 coord, int edgeNumber);
-void CalculateNormals(Mesh& mesh);
-Mesh Reindex(PointIdMapping& vertexMapping, vector<Triangle>& triangles);
+void MarchingCube::SetCubeWidth(float width) {
+	for (int i=0; i<8; i++) {
+		vertexOffsets[i].x = VERTEX_OFFSETS[i][0];
+		vertexOffsets[i].y = VERTEX_OFFSETS[i][1];
+		vertexOffsets[i].z = VERTEX_OFFSETS[i][2];
+		vertexOffsets[i] *= width;
+	}
+}
 
 void MarchingCube::Marching() {
 	cint3 cellDim = surfaceGrid->resolution;
@@ -70,72 +74,72 @@ void MarchingCube::Marching() {
 
 		if (EDGE_TABLE[tableIndex] != 0) {
 			if (EDGE_TABLE[tableIndex] & 8) {
-				IdPoint pt = CalculateIntersection(coord, 3);
+				IdPoint pt = CalculateIntersection(coord, 3, value);
 				int id = GetEdgeIndex(coord, 3);
 				vertexMapping.insert(PointIdMapping::value_type(id, pt));
 			}
 			if (EDGE_TABLE[tableIndex] & 1) {
-				IdPoint pt = CalculateIntersection(coord, 0);
+				IdPoint pt = CalculateIntersection(coord, 0, value);
 				int id = GetEdgeIndex(coord, 0);
 				vertexMapping.insert(PointIdMapping::value_type(id, pt));
 			}
 			if (EDGE_TABLE[tableIndex] & 256) {
-				IdPoint pt = CalculateIntersection(coord, 8);
+				IdPoint pt = CalculateIntersection(coord, 8, value);
 				int id = GetEdgeIndex(coord, 8);
 				vertexMapping.insert(PointIdMapping::value_type(id, pt));
 			}
 
 			if (coord.x == cellDim.x - 1) {
 				if (EDGE_TABLE[tableIndex] & 4) {
-					IdPoint pt = CalculateIntersection(coord, 2);
+					IdPoint pt = CalculateIntersection(coord, 2, value);
 					int id = GetEdgeIndex(coord, 2);
 					vertexMapping.insert(PointIdMapping::value_type(id, pt));
 				}
 				if (EDGE_TABLE[tableIndex] & 2048) {
-					IdPoint pt = CalculateIntersection(coord, 11);
+					IdPoint pt = CalculateIntersection(coord, 11, value);
 					int id = GetEdgeIndex(coord, 11);
 					vertexMapping.insert(PointIdMapping::value_type(id, pt));
 				}
 			}
 			if (coord.y == cellDim.y - 1) {
 				if (EDGE_TABLE[tableIndex] & 2) {
-					IdPoint pt = CalculateIntersection(coord, 1);
+					IdPoint pt = CalculateIntersection(coord, 1, value);
 					int id = GetEdgeIndex(coord, 1);
 					vertexMapping.insert(PointIdMapping::value_type(id, pt));
 				}
 				if (EDGE_TABLE[tableIndex] & 512) {
-					IdPoint pt = CalculateIntersection(coord, 9);
+					IdPoint pt = CalculateIntersection(coord, 9, value);
 					int id = GetEdgeIndex(coord, 9);
 					vertexMapping.insert(PointIdMapping::value_type(id, pt));
 				}
 			}
 			if (coord.z == cellDim.z - 1) {
 				if (EDGE_TABLE[tableIndex] & 16) {
-					IdPoint pt = CalculateIntersection(coord, 4);
+					IdPoint pt = CalculateIntersection(coord, 4, value);
 					int id = GetEdgeIndex(coord, 4);
 					vertexMapping.insert(PointIdMapping::value_type(id, pt));
 				}
 				if (EDGE_TABLE[tableIndex] & 128) {
-					IdPoint pt = CalculateIntersection(coord, 7);
+					IdPoint pt = CalculateIntersection(coord, 7, value);
 					int id = GetEdgeIndex(coord, 7);
 					vertexMapping.insert(PointIdMapping::value_type(id, pt));
 				}
 			}
 			if ((coord.x == cellDim.x - 1) && (coord.y == cellDim.y - 1))
 				if (EDGE_TABLE[tableIndex] & 1024) {
-					IdPoint pt = CalculateIntersection(coord, 10);
+					IdPoint pt = CalculateIntersection(coord, 10, value);
 					int id = GetEdgeIndex(coord, 10);
 					vertexMapping.insert(PointIdMapping::value_type(id, pt));
 				}
 			if ((coord.x == cellDim.x - 1) && (coord.z == cellDim.z - 1))
 				if (EDGE_TABLE[tableIndex] & 64) {
-					IdPoint pt = CalculateIntersection(coord, 6);
+					IdPoint pt = CalculateIntersection(coord, 6, value);
 					int id = GetEdgeIndex(coord, 6);
 					vertexMapping.insert(PointIdMapping::value_type(id, pt));
 				}
 			if ((coord.y == cellDim.y - 1) && (coord.z == cellDim.z - 1))
 				if (EDGE_TABLE[tableIndex] & 32) {
-					IdPoint pt = CalculateIntersection(coord, 5);
+					IdPoint pt = CalculateIntersection(coord, 5, value);
 					int id = GetEdgeIndex(coord, 5);
 					vertexMapping.insert(PointIdMapping::value_type(id, pt));
 				}
@@ -153,9 +157,9 @@ void MarchingCube::Marching() {
 			}
 		}
 	}
-	Mesh mesh = Reindex(vertexMapping, triangles);
-
-	CalculateNormals(mesh);
+	
+	Reindex(vertexMapping, triangles);
+	mesh.CalculateNormals();
 	return;
 }
 
@@ -193,6 +197,7 @@ IdPoint MarchingCube::CalculateIntersection(
 	int edgeNumber,
 	float* values
 ) {
+	
 	cfloat3 x1,x2;
 	int vId[2];
 	float value[2];
@@ -202,8 +207,8 @@ IdPoint MarchingCube::CalculateIntersection(
 
 	x1 = surfaceGrid->GetVertexPosition(coord);
 	x2 = x1;
-	x1 += cube.vertexOffsets[vId[0]];
-	x2 += cube.vertexOffsets[vId[1]];
+	x1 += vertexOffsets[vId[0]];
+	x2 += vertexOffsets[vId[1]];
 	value[0] = values[vId[0]];
 	value[1] = values[vId[1]];
 
@@ -218,3 +223,49 @@ IdPoint MarchingCube::CalculateIntersection(
 
 
 
+void MarchingCube::Reindex(PointIdMapping& vertexMapping, vector<Triangle>& triangles) {
+	
+	// reindex
+	int nextId = 0;
+	for (auto& pair : vertexMapping) {
+		pair.second.id = nextId ++;
+	}
+	for (auto& triangle : triangles) {
+		triangle.pointId[0] = vertexMapping[triangle.pointId[0]].id;
+		triangle.pointId[1] = vertexMapping[triangle.pointId[1]].id;
+		triangle.pointId[2] = vertexMapping[triangle.pointId[2]].id;
+	}
+
+	// copy to mesh
+	mesh.numVertices = vertexMapping.size();
+	mesh.vertices.resize(mesh.numVertices);
+	int index = 0;
+	for (const auto& pair : vertexMapping) {
+		mesh.vertices[index] = pair.second.pos;
+		index ++;
+	}
+
+	mesh.numFaces = triangles.size();
+	mesh.faces.resize(mesh.numFaces*3);
+	index = 0;
+	for (const auto& triangle : triangles) {
+		mesh.faces[index*3] = triangle.pointId[0];
+		mesh.faces[index*3+1] = triangle.pointId[1];
+		mesh.faces[index*3+2] = triangle.pointId[2];
+		index ++;
+	}
+}
+
+void Mesh::CalculateNormals() {
+}
+
+void Mesh::Output(string filePath) {
+	FILE* fp = fopen(filePath.c_str(), "w");
+	for (const auto& vertex : vertices) {
+		fprintf(fp, "v %f %f %f\n", vertex.x, vertex.y, vertex.z);
+	}
+	for (int i=0; i<numFaces; i++) {
+		fprintf(fp, "f %d %d %d\n", faces[i*3], faces[i*3+1], faces[i*3+2]);
+	}
+	fclose(fp);
+}

@@ -11,6 +11,13 @@ struct IdPoint {
 	cfloat3 pos;
 };
 
+/*
+This pair<int, IdPoint> stores the edge index of the point
+in its first element, and stores the point in its second element.
+The attribute 'id' in IdPoint is the vertex id in the mesh,
+and is not related to the edge index.
+*/
+
 typedef map<int, IdPoint> PointIdMapping;
 
 struct Triangle {
@@ -25,43 +32,34 @@ struct Mesh {
 	veci faces;
 
 	Mesh(){}
+	
+	void CalculateNormals();
+	void Output(string filePath);
 };
 
 struct EdgeVertex {
 	int v1, v2;
 };
 
-struct Cube {
-	cfloat3 vertexOffsets[8];
-	void SetWidth(float width) {
-		for (int i=0; i<8; i++) {
-			vertexOffsets[i].x = VERTEX_OFFSETS[i][0];
-			vertexOffsets[i].y = VERTEX_OFFSETS[i][1];
-			vertexOffsets[i].z = VERTEX_OFFSETS[i][2];
-			vertexOffsets[i] *= width;
-		}
-	}
-};
 
 class MarchingCube {
 public:
 
 	float isoLevel;
-	veci* surfaceIndexMap;
 	SurfaceGrid* surfaceGrid;
-	Cube cube;
 	Mesh mesh;
+	cfloat3 vertexOffsets[8];
 
-	int GetVertexIndex(cint3 coord) {
-		surfaceGrid->GetVertexIndex(coord);
-	}
+	//Initialize
 
+	void SetCubeWidth(float width);
+	
 	void SetIsoLevel(float isoLevel_) {
 		isoLevel = isoLevel;
 	}
 
-	void SetWidth(float width) {
-		cube.SetWidth(width);
+	int GetVertexIndex(cint3 coord) {
+		return surfaceGrid->GetVertexIndex(coord);
 	}
 
 	int GetEdgeIndex(cint3 coord, int edge);
@@ -82,4 +80,5 @@ public:
 
 	IdPoint CalculateIntersection(cint3 coord, int edgeNumber, float* values);
 
+	void Reindex(PointIdMapping& vertexMapping, vector<Triangle>& triangles);
 };
