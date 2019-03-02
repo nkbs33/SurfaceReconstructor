@@ -216,3 +216,5 @@ IdPoint MarchingCube::CalculateIntersection(
 	return intersection;
 }
 
+
+
