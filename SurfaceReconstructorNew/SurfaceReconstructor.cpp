@@ -84,7 +84,7 @@ void SurfaceReconstructor::ExtractSurfaceVertices(){
 
 	printf("extracting surface vertices..\n");
 
-    cfloat3 aabbLen = cfloat3(infectRadius, infectRadius, infectRadius);
+    cfloat3 aabbLen = cfloat3(infectRadius, infectRadius, infectRadius) * 10;
     int numSurfaceVertices = 0;
 
     //scatter approach
@@ -97,7 +97,7 @@ void SurfaceReconstructor::ExtractSurfaceVertices(){
         cfloat3 boxMax = x + aabbLen;
         cint3 coordMin = surfaceGrid.GetVertexCoord(boxMin) + cint3(1,1,1);
         cint3 coordMax = surfaceGrid.GetVertexCoord(boxMax);
-        
+       
         for(int xx=coordMin.x; xx<=coordMax.x; xx++)
         for(int yy=coordMin.y; yy<=coordMax.y; yy++)
         for(int zz=coordMin.z; zz<=coordMax.z; zz++){

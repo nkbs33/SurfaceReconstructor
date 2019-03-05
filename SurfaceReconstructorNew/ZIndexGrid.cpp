@@ -58,18 +58,25 @@ void ZIndexGrid::ComputeStartIndices(){
         endIndices[i] = CELL_EMPTY;
     }
 
-    if(particleHandlers[0].particleHash != INVALID_CELL){
+    if(particleHandlers[0].particleHash == INVALID_CELL)
+		return;
+	else
         startIndices[particleHandlers[0].particleHash] = 0;
-    }
-    for(int i=1; i<particleHandlers.size(); i++){
-        if(particleHandlers[i].particleHash == INVALID_CELL)
-            break;
-        if(particleHandlers[i].particleHash != 
-            particleHandlers[i-1].particleHash){
+   
+	
+	int i;
+    for(i=1; i<particleHandlers.size(); i++){
+		if (particleHandlers[i].particleHash == INVALID_CELL) {
+			endIndices[particleHandlers[i-1].particleHash] = i;
+			break;
+		}
+		if(particleHandlers[i].particleHash != 
+            particleHandlers[i-1].particleHash) {
             startIndices[particleHandlers[i].particleHash] =  i;
             endIndices[particleHandlers[i-1].particleHash] = i;
         }
     }
+	endIndices[particleHandlers[i-1].particleHash] = particleHandlers.size();
 }
 
 void ZIndexGrid::ReorderParticleData(){

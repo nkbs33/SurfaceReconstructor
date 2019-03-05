@@ -47,7 +47,8 @@ public:
 		coord = floor((p - xmin)/cellWidth);
 		return coord;
 	}
-	int GetSurfaceIndex(int gridIndex) {
+	int GetSurfaceIndex(cint3 coord) {
+		int gridIndex = GetVertexIndex(coord);
 		if(gridIndex < surfaceIndices.size())
 			return surfaceIndices[gridIndex];
 		else
@@ -67,6 +68,9 @@ public:
 
 	void InsertSurfaceVertex(cint3 coord) {
 		int index = GetVertexIndex(coord);
+		if(index == INVALID_CELL)
+			return;
+
 		if (surfaceIndices[index] == -1) {
 			surfaceIndices[index] = surfaceVertices.size();
 			SurfaceVertex sVertex;

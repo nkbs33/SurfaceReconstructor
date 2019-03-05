@@ -4,7 +4,8 @@
 #include "SurfaceGrids.h"
 #include <map>
 
-#define OUTSIDE 999
+#define OUTSIDE 99
+#define NON_SURFACE 999
 
 struct IdPoint {
 	int id;
@@ -49,6 +50,8 @@ public:
 	SurfaceGrid* surfaceGrid;
 	Mesh mesh;
 	cfloat3 vertexOffsets[8];
+	PointIdMapping vertexMapping;
+	vector<Triangle> triangles;
 
 	//Initialize
 
@@ -65,11 +68,10 @@ public:
 	int GetEdgeIndex(cint3 coord, int edge);
 
 	float GetValue(cint3 coord) {
-		int index = GetVertexIndex(coord);
-		int surfaceIndex = surfaceGrid->GetSurfaceIndex(index);
+		int surfaceIndex = surfaceGrid->GetSurfaceIndex(coord);
 		if (surfaceIndex == -1) {
 			//printf("accessing non-surface vertex\n");
-			return OUTSIDE;
+			return NON_SURFACE;
 		}
 		else {
 			return surfaceGrid->surfaceVertices[surfaceIndex].value;
@@ -77,6 +79,7 @@ public:
 	}
 
 	void Marching();
+	void InsertVertex(cint3 coord, int edgeNumber, float* value);
 
 	IdPoint CalculateIntersection(cint3 coord, int edgeNumber, float* values);
 

@@ -7,7 +7,6 @@
 
 #include "MarchingCube.h"
 
-#define OUTSIDE 999
 
 class SurfaceReconstructor{
 public:

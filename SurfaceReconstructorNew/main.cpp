@@ -49,6 +49,6 @@ void Test() {
 }
 
 int main() {
-	Test();
+	main_();
 	return 0;
 }
