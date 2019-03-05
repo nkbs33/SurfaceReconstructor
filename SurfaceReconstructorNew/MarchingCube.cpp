@@ -23,11 +23,10 @@ void MarchingCube::Marching() {
 
 	vector<SurfaceVertex>& sVertices = surfaceGrid->surfaceVertices;
 
-	for(int i=0; i< sVertices.size(); i++){
+	for(auto const& vertex : sVertices){
 
 		int tableIndex = 0;
-		
-		cint3 coord = sVertices[i].coord;
+		cint3 coord = vertex.coord;
 		
 		value[0] = GetValue(coord);
 		value[1] = GetValue(coord + cint3(0, 1, 0));
@@ -37,6 +36,17 @@ void MarchingCube::Marching() {
 		value[5] = GetValue(coord + cint3(0, 1, 1));
 		value[6] = GetValue(coord + cint3(1, 1, 1));
 		value[7] = GetValue(coord + cint3(1, 0, 1));
+		
+		bool invalid = false;
+		for (int viter=0; viter<8; viter++) {
+			if (value[viter] > OUTSIDE - 0.1f) {
+				//skip this vertex
+				invalid = true;
+				break;
+			}
+		}
+		if(invalid)
+			continue;
 
 		/*if (GetValue(coord) < isoLevel)
 			tableIndex |= 1;
@@ -226,7 +236,7 @@ IdPoint MarchingCube::CalculateIntersection(
 void MarchingCube::Reindex(PointIdMapping& vertexMapping, vector<Triangle>& triangles) {
 	
 	// reindex
-	int nextId = 0;
+	int nextId = 1;
 	for (auto& pair : vertexMapping) {
 		pair.second.id = nextId ++;
 	}

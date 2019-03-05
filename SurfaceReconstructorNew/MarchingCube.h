@@ -66,9 +66,9 @@ public:
 
 	float GetValue(cint3 coord) {
 		int index = GetVertexIndex(coord);
-		int surfaceIndex = surfaceGrid->surfaceIndices[index];
+		int surfaceIndex = surfaceGrid->GetSurfaceIndex(index);
 		if (surfaceIndex == -1) {
-			printf("Error: accessing non-surface vertex\n");
+			//printf("accessing non-surface vertex\n");
 			return OUTSIDE;
 		}
 		else {
