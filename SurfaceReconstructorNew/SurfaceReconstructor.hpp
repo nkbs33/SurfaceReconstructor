@@ -6,7 +6,7 @@
 #include "SurfaceGrids.h"
 
 #include "MarchingCube.h"
-
+#include "catpaw/cpXMLhelper.h"
 
 class SurfaceReconstructor{
 public:
@@ -32,6 +32,12 @@ public:
         normThres = 0.5;
         neighborThres = 25;
     }
+
+	void LoadConfig() {
+		
+		
+	}
+
     void LoadParticle(char* filePath){
         particleData.LoadFromFile(filePath);
         particleData.Analyze();

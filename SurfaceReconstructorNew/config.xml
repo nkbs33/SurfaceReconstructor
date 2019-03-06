@@ -1,0 +1,9 @@
+<SurfaceReconstruction>
+
+<particleSpacing> 1.0 </particleSpacing>
+<infectRadius> 2.0 </infectRadius>
+<padding> 2.0 </padding>
+<normThreshold> 0.5 </normThreshold>
+<neighborThreshold> 25 </neighborThreshold>
+
+</SurfaceReconstruction>

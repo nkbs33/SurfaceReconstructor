@@ -75,7 +75,7 @@ void SurfaceReconstructor::ComputeColorFieldAndMarkParticles(){
         else 
             surfaceParticleMark[i] = 0;
         
-        printf("%d %f %d\n",i, n_norm, numNeighbors);
+        //printf("%d %f %d\n",i, n_norm, numNeighbors);
     }
 }
 
