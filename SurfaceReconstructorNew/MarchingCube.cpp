@@ -24,7 +24,10 @@ void MarchingCube::Marching() {
 
 		int tableIndex = 0;
 		cint3 coord = vertex.coord;
-		
+		if (coord.x==1 && coord.y==0 && coord.z==2) {
+			printf("?\n");
+		}
+
 		value[0] = GetValue(coord);
 		value[1] = GetValue(coord + cint3(0, 1, 0));
 		value[2] = GetValue(coord + cint3(1, 1, 0));
@@ -135,9 +138,9 @@ void MarchingCube::Marching() {
 				triangle.pointId[2] = pointId2;
 				triangles.push_back(triangle);
 
-				/*if (pointId0==1569||pointId1==1569||pointId2==1569) {
+				if (pointId0==214||pointId1==214||pointId2==214) {
 					printf("?\n");
-				}*/
+				}
 			}
 		}
 	}
@@ -205,7 +208,7 @@ IdPoint MarchingCube::CalculateIntersection(
 	value[0] = values[vId[0]];
 	value[1] = values[vId[1]];
 
-	if (value[0]==OUTSIDE || value[1]==OUTSIDE){
+	if (value[0]==NON_SURFACE || value[1]==NON_SURFACE){
 		intersection.pos = cfloat3(-999,-999,-999);
 		return intersection;
 	}

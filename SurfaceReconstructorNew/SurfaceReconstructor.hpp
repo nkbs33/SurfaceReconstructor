@@ -31,11 +31,24 @@ public:
         sphHelper.SetupCubic(infectRadius/2);
         normThres = 0.5;
         neighborThres = 25;
+		//LoadConfig();
     }
 
 	void LoadConfig() {
+		XMLDocument doc;
+		int xmlState = doc.LoadFile("config.xml");
+		Tinyxml_Reader reader;
+
+		XMLElement* param = doc.FirstChildElement("SurfaceReconstruction")->FirstChildElement("uniform");
+		reader.Use(param);
+		particleSpacing = reader.GetFloat("particleSpacing");
+		infectRadius = reader.GetFloat("infectRadius");
+		float paddingx = reader.GetFloat("padding");
+		padding.Set(paddingx, paddingx, paddingx);
 		
-		
+		sphHelper.SetupCubic(infectRadius*0.5);
+		normThres = reader.GetFloat("normThreshold");
+		neighborThres = reader.GetInt("neighborThreshold");
 	}
 
     void LoadParticle(char* filePath){
@@ -49,13 +62,7 @@ public:
         SetupZGrid();
     }
     
-    void SetupSurfaceGrid(){
-        surfaceGrid.cellWidth = 0.5;  
-        surfaceGrid.xmin = particleData.GetXMin()-padding;
-        surfaceGrid.xmax = particleData.GetXMax()+padding;
-        surfaceGrid.Init();
-    }
-
+    void SetupSurfaceGrid();
     void SetupZGrid();
     
     void ExtractSurface();

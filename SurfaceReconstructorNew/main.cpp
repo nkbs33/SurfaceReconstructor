@@ -4,18 +4,22 @@
 
 
 int main_(){
-    printf("Welcome to Surface Reconstruction.\n");
+    
     SurfaceReconstructor surfaceReconstructor;
-    
     surfaceReconstructor.LoadParticle("test.txt");
-    surfaceReconstructor.SetupGrids();
-    
+	surfaceReconstructor.SetupGrids();
+  
     surfaceReconstructor.ExtractSurface();
-    //surfaceReconstructor.OutputMesh("test.obj");
     return 0;
 }
 
+void TestParticleData() {
+	SurfaceReconstructor surfaceReconstructor;
+	surfaceReconstructor.LoadParticle("particledata/000.txt");
+	surfaceReconstructor.SetupGrids();
 
+	surfaceReconstructor.ExtractSurface();
+}
 
 void Test() {
 	SurfaceReconstructor sr;
