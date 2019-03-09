@@ -64,6 +64,8 @@ public:
 		surfaceVertices.clear();
 		for (int i=0; i<surfaceIndices.size(); i++)
 			surfaceIndices[i] = -1;
+
+		printf("Surface Grid Resolution: %d %d %d\n", vertexResolution.x, vertexResolution.y, vertexResolution.z);
 	}
 
 	void InsertSurfaceVertex(cint3 coord) {

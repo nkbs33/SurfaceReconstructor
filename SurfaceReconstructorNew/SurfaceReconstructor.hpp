@@ -34,12 +34,12 @@ public:
 		//LoadConfig();
     }
 
-	void LoadConfig() {
+	void LoadConfig(const char* config) {
 		XMLDocument doc;
 		int xmlState = doc.LoadFile("config.xml");
 		Tinyxml_Reader reader;
 
-		XMLElement* param = doc.FirstChildElement("SurfaceReconstruction")->FirstChildElement("uniform");
+		XMLElement* param = doc.FirstChildElement("SurfaceReconstruction")->FirstChildElement(config);
 		reader.Use(param);
 		particleSpacing = reader.GetFloat("particleSpacing");
 		infectRadius = reader.GetFloat("infectRadius");

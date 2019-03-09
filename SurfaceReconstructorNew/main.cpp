@@ -6,6 +6,8 @@
 int main_(){
     
     SurfaceReconstructor surfaceReconstructor;
+
+	surfaceReconstructor.LoadConfig("uniform");
     surfaceReconstructor.LoadParticle("test.txt");
 	surfaceReconstructor.SetupGrids();
   
@@ -15,6 +17,8 @@ int main_(){
 
 void TestParticleData() {
 	SurfaceReconstructor surfaceReconstructor;
+
+	surfaceReconstructor.LoadConfig("small");
 	surfaceReconstructor.LoadParticle("particledata/000.txt");
 	surfaceReconstructor.SetupGrids();
 
@@ -53,6 +57,8 @@ void Test() {
 }
 
 int main() {
-	main_();
+	//main_();
+	TestParticleData();
+	
 	return 0;
 }

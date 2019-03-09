@@ -24,9 +24,6 @@ void MarchingCube::Marching() {
 
 		int tableIndex = 0;
 		cint3 coord = vertex.coord;
-		if (coord.x==1 && coord.y==0 && coord.z==2) {
-			printf("?\n");
-		}
 
 		value[0] = GetValue(coord);
 		value[1] = GetValue(coord + cint3(0, 1, 0));
@@ -137,10 +134,6 @@ void MarchingCube::Marching() {
 				triangle.pointId[1] = pointId1;
 				triangle.pointId[2] = pointId2;
 				triangles.push_back(triangle);
-
-				if (pointId0==214||pointId1==214||pointId2==214) {
-					printf("?\n");
-				}
 			}
 		}
 	}
@@ -228,16 +221,12 @@ void MarchingCube::Reindex(PointIdMapping& vertexMapping, vector<Triangle>& tria
 	// reindex
 	int nextId = 1;
 	for (auto& pair : vertexMapping) {
-		printf("%d\n",pair.first);
 		pair.second.id = nextId ++;
 	}
 	for (auto& triangle : triangles) {
 		for (int j=0; j<3; j++) {
 			int tmp = triangle.pointId[j];
 			triangle.pointId[j] = vertexMapping[tmp].id;
-			if (triangle.pointId[j]==0) {
-				printf("!?\n");
-			}
 		}
 	}
 

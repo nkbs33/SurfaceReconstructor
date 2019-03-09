@@ -49,7 +49,7 @@ class ZIndexGrid{
         
         resolution = maxres;
         xmax = xmin + maxres * cellWidth;
-        printf("grid resolution: %d\n", resolution);
+        printf("Z Grid resolution: %d\n", resolution);
         numCells = resolution*resolution*resolution;
         startIndices.resize(numCells);
         endIndices.resize(numCells);

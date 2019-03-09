@@ -91,7 +91,7 @@ void SurfaceReconstructor::ExtractSurfaceVertices(){
 
 	printf("extracting surface vertices..\n");
 
-    cfloat3 aabbLen = cfloat3(infectRadius, infectRadius, infectRadius) * 10;
+    cfloat3 aabbLen = cfloat3(infectRadius, infectRadius, infectRadius);
     int numSurfaceVertices = 0;
 
     //scatter approach
@@ -130,6 +130,9 @@ inline float maxEV(cmat3& mat) {
 }
 
 void SurfaceReconstructor::ComputeScalarValues(){
+
+	printf("Computing scalar values...\n");
+
     //gather approach
     for(int i=0; i<surfaceGrid.surfaceVertices.size(); i++){
         int gridIndex = surfaceGrid.surfaceVertices[i].gridIndex;
@@ -189,16 +192,16 @@ void SurfaceReconstructor::ComputeScalarValues(){
 			xAverageGradient.Multiply(1.0f/sumW);
 			xAverageGradient.Minus(tmp);
 
+			float f = 1;
+			/*float t_high = 3.5, t_low = 0.4;
 			float evMax = maxEV(xAverageGradient);
-			float f = 0;
-			float t_high = 3.5, t_low = 0.4;
 			if(evMax < t_low )
 				f = 1;
 			else {
 				float gamma = (t_high - evMax)/(t_high - t_low);
 				f = gamma*gamma*gamma - 3*gamma*gamma + 3*gamma;
 				if(f<0) f = 0;
-			}
+			}*/
 			scalarValue = (xi - xAverage).Norm() -  f * particleSpacing;
 		}
 		else
@@ -214,7 +217,7 @@ void SurfaceReconstructor::Triangulate(){
 	MarchingCube marchingCube;
 	marchingCube.surfaceGrid = & surfaceGrid;
 	marchingCube.SetCubeWidth(surfaceGrid.cellWidth);
-	marchingCube.isoLevel = 0.5;
+	marchingCube.isoLevel = 0.0025;
 
 	marchingCube.Marching();
 	marchingCube.mesh.Output("test.obj");

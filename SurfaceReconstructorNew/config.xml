@@ -10,7 +10,7 @@
 
 <small>
 	<particleSpacing> 0.005 </particleSpacing>
-	<infectRadius> 0.01 </infectRadius>
+	<infectRadius> 0.015 </infectRadius>
 	<padding> 0.01 </padding>
 	<normThreshold> 0.5 </normThreshold>
 	<neighborThreshold> 25 </neighborThreshold>
